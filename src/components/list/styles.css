@@ -1,0 +1,5 @@
+.deleteItem {
+  float: right;
+  padding: 5px;
+  cursor: pointer;
+}

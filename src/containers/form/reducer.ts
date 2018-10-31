@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { ADD_ITEM } from "../../constants";
+import { ADD_ITEM, REMOVE_ITEM } from "../../constants";
 
 export interface FormReducerState {
   items: string[];
@@ -26,6 +26,11 @@ export const formReducer: Reducer<FormReducerState> = (
           }
           return 0;
         })
+      };
+    case REMOVE_ITEM:
+      return {
+        ...state,
+        items: state.items.filter(item => item !== action.payload)
       };
 
     default:

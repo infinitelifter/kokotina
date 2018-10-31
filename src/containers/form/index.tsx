@@ -1,12 +1,14 @@
 import * as React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { addItem } from "./actions";
+import { addItem, removeItem } from "./actions";
 import { ApplicationState } from "../../reducers";
+import ItemsList from "../../components/list/index";
 import "./styles.css";
 
 interface Props {
   addItem: (item: string) => void;
+  removeItem: (item: string) => void;
   items: string[];
 }
 
@@ -21,21 +23,23 @@ class Form extends React.Component<Props> {
     });
   };
 
-  handleFormSubmit = (input: string) => {
+  handleFormSubmit = () => {
     const { addItem, items } = this.props;
+    const { inputValue } = this.state;
+
     const regexCheck = /\s/;
 
     if (
-      input !== "" &&
-      !regexCheck.test(input) &&
-      items.indexOf(input) === -1
+      inputValue !== "" &&
+      !regexCheck.test(inputValue) &&
+      items.indexOf(inputValue) === -1
     ) {
-      addItem(input);
+      addItem(inputValue);
     }
   };
 
   render() {
-    const { items } = this.props;
+    const { items, removeItem } = this.props;
     const { inputValue } = this.state;
 
     return (
@@ -46,11 +50,11 @@ class Form extends React.Component<Props> {
           value={inputValue}
           onChange={evt => this.updateInputValue(evt)}
         />
-        <button type="button" onClick={() => this.handleFormSubmit(inputValue)}>
+        <button type="button" onClick={() => this.handleFormSubmit()}>
           Submit
         </button>
         {items.map((item: string) => (
-          <div key={item}>{item}</div>
+          <ItemsList item={item} removeItem={removeItem} />
         ))}
       </div>
     );
@@ -64,7 +68,8 @@ const mapStateToProps = (state: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   ...bindActionCreators(
     {
-      addItem
+      addItem,
+      removeItem
     },
     dispatch
   )
