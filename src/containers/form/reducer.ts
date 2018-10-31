@@ -17,13 +17,11 @@ export const formReducer: Reducer<FormReducerState> = (
     case ADD_ITEM:
       return {
         ...state,
-        items: [...state.items, action.payload].sort(function(x, y) {
-          if (x < y) {
-            return -1;
-          }
-          if (x > y) {
-            return 1;
-          }
+        items: [...state.items, action.payload].sort(function(a, b) {
+          const itemA = a.toLowerCase();
+          const itemB = b.toLowerCase();
+          if (itemA < itemB) return -1;
+          if (itemA > itemB) return 1;
           return 0;
         })
       };

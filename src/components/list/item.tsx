@@ -6,7 +6,7 @@ interface Props {
   item: string;
 }
 
-const ItemsList: React.SFC<Props> = props => {
+const ListItem: React.SFC<Props> = props => {
   return (
     <div className="list-item" key={props.item}>
       {props.item}
@@ -17,4 +17,4 @@ const ItemsList: React.SFC<Props> = props => {
   );
 };
 
-export default ItemsList;
+export default ListItem;

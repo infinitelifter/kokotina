@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { addItem, removeItem } from "./actions";
 import { ApplicationState } from "../../reducers";
-import ItemsList from "../../components/list/index";
+import ListItem from "../../components/list/item";
 import "./styles.css";
 
 interface Props {
@@ -35,6 +35,13 @@ class Form extends React.Component<Props> {
       items.indexOf(inputValue) === -1
     ) {
       addItem(inputValue);
+      this.setState({ inputValue: "" });
+    }
+  };
+
+  _handleKeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      this.handleFormSubmit();
     }
   };
 
@@ -47,14 +54,16 @@ class Form extends React.Component<Props> {
         <input
           type="text"
           name="name"
+          autoFocus
           value={inputValue}
           onChange={evt => this.updateInputValue(evt)}
+          onKeyPress={this._handleKeyPress}
         />
         <button type="button" onClick={() => this.handleFormSubmit()}>
           Submit
         </button>
         {items.map((item: string) => (
-          <ItemsList item={item} removeItem={removeItem} />
+          <ListItem item={item} removeItem={removeItem} />
         ))}
       </div>
     );
